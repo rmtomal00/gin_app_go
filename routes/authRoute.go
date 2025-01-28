@@ -1,4 +1,4 @@
-package authRoute
+package route
 
 import (
 	auth "app.team71.link/controller"

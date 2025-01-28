@@ -1,4 +1,4 @@
-package authService
+package service
 
 import (
 	"fmt"
@@ -33,14 +33,32 @@ func CreateUser(user *authDto.Register) (interface{}, error){
 		Password: hashPass,
 	}
 
-	result := db.ConnectToDb().Save(&userData)
+	result := db.ConnectToDb().Create(&userData)
 	
 	if result.Error != nil {
 		mp["message"] = "Unsuccess";
 		return mp, result.Error
 	}
 	
-	mp["message"] = "Success";
-	mp["userId"] = userData.ID
-	return mp, nil
+	
+	return userData, nil
+}
+
+func SaveUserData(user *userModel.User) (string, error){
+	result := db.ConnectToDb().Save(&user);
+
+	if result.Error != nil {
+		return result.Error.Error(), result.Error
+	}
+
+	return "Update Data Successfully", nil
+}
+
+func FindBy(data map[string]interface{}) (*userModel.User, error){
+	var user userModel.User
+	result := db.ConnectToDb().Where(data).First(&user);
+	if result.Error != nil {
+		return &user, result.Error
+	}
+	return &user, nil
 }

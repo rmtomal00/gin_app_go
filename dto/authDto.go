@@ -1,4 +1,4 @@
-package authDto
+package dto
 
 type Register struct{
 	Username string `json:"username" binding:"required"`
