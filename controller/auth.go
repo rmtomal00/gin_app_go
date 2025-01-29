@@ -283,3 +283,23 @@ func checkErr(err *error) bool{
 	}
 	return false
 }
+
+func CkeckToken(ctx *gin.Context){
+	token := ctx.Param("token")
+
+	if token == "" {
+		response.BadRequest(ctx, 400, "Token can't be empty")
+		return
+	}
+
+	
+
+	d, err := jwtTokenManageer.ValidJwtToken(token); 
+	if err != nil{
+		response.BadRequest(ctx, 400, err.Error())
+		return
+	}
+	_ = d
+
+	response.Success(ctx, 200, map[string]bool{"isValid": true}, "Token is valid")
+}
