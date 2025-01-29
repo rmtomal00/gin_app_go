@@ -114,7 +114,7 @@ func ResendVerificationEmail(ctx *gin.Context){
 
 	user, err := authService.FindBy(map[string]interface{}{"email": email});
 
-	if checkErr(&err) {
+	if checkErr(err) {
 		response.BadRequest(ctx, 400, err.Error())
 		return
 	}
@@ -210,7 +210,7 @@ func ConfirmResetPassword(ctx* gin.Context){
 	}
 
 	user, err := authService.FindBy(map[string]interface{}{"id": tokenData.ID});
-	if checkErr(&err) {
+	if checkErr(err) {
 		response.BadRequest(ctx, 400, err.Error());
 		return;
 	}
@@ -219,7 +219,7 @@ func ConfirmResetPassword(ctx* gin.Context){
 
 	upadate, err := authService.SaveUserData(user);
 
-	if checkErr(&err) {
+	if checkErr(err) {
 		response.BadRequest(ctx, 400, err.Error())
 		return;
 	}
@@ -229,22 +229,22 @@ func ConfirmResetPassword(ctx* gin.Context){
 
 }
 
-func Login(ctx *gin.Context){
+func Login(ctx* gin.Context){
 	var loginData authDto.Login;
 	err := ctx.ShouldBind(&loginData)
 
-	if checkErr(&err) {
+	if checkErr(err) {
 		response.BadRequest(ctx, 400, err.Error())
 		return
 	}
 
 	user, err := authService.FindBy(map[string]interface{}{"email": strings.ToLower(strings.TrimSpace(loginData.Email))})
-	if checkErr(&err) {
+	if checkErr(err) {
 		response.BadRequest(ctx, 400, "Email not found")
 		return
 	}
 
-	if !common.IsValidPass(user.Password, user.Password) {
+	if !common.IsValidPass(user.Password, loginData.Password) {
 		response.BadRequest(ctx, 400, "Password not match")
 		return
 	}
@@ -267,7 +267,7 @@ func Login(ctx *gin.Context){
 
 	_ = u;
 
-	if checkErr(&err) {
+	if checkErr(err) {
 		response.BadRequest(ctx, 400, "Login fail")
 		return
 	}
@@ -277,7 +277,7 @@ func Login(ctx *gin.Context){
 }
 
 
-func checkErr(err *error) bool{
+func checkErr(err error) bool{
 	if err != nil {
 		return true
 	}
@@ -292,14 +292,18 @@ func CkeckToken(ctx *gin.Context){
 		return
 	}
 
-	
-
 	d, err := jwtTokenManageer.ValidJwtToken(token); 
+
 	if err != nil{
 		response.BadRequest(ctx, 400, err.Error())
 		return
 	}
-	_ = d
+
+	user, err := authService.FindBy(map[string]interface{}{"id": d.ID})
+	if checkErr(err) || user.LoginToken != strings.TrimSpace(token) {
+		response.BadRequest(ctx, 400, "Token not match")
+		return
+	}
 
 	response.Success(ctx, 200, map[string]bool{"isValid": true}, "Token is valid")
 }
