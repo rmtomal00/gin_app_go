@@ -1,5 +1,7 @@
 package model
 
+import "gorm.io/gorm"
+
 type User struct{
 	ID int64 `gorm:"primaryKey;autoIncrement"`
 	Username string `gorm:"size:255;not null;index:idx_username"`
@@ -11,4 +13,12 @@ type User struct{
 	UserDisable bool `gorm:"type:tinyint(1);column:isDisable;not null; default:0"`
 	CreateAt int64 `gorm:"autoCreateTime"`
 	UpdateAt int64 `gorm:"autoUpdateTime"`
+	Role []string `gorm:"json"`
+}
+
+func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
+	if len(u.Role) == 0 {
+		u.Role = []string{"User"}
+	}
+	return nil
 }

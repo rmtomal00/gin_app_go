@@ -10,5 +10,6 @@ func AuthRouteFunc(ctx *gin.Engine) {
 	group := ctx.Group("/api/v1/auth")
 
 	group.POST("/register", auth.Register)
+	group.GET("/confirm-email/:token", auth.ConfirmEmail)
 	
 }

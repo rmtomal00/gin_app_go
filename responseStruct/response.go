@@ -1,6 +1,8 @@
 package response
 
-func Success(StatusCode int, Data interface{}, Message string) defaultResponse{
+import "github.com/gin-gonic/gin"
+
+func Success(ctx *gin.Context, StatusCode int, Data interface{}, Message string){
 	res := defaultResponse{
 		StatusCode: StatusCode,
 		Data: Data,
@@ -8,27 +10,33 @@ func Success(StatusCode int, Data interface{}, Message string) defaultResponse{
 		Message: Message,
 	}
 
-	return res;
+	ctx.JSON(StatusCode, res)
+	ctx.Abort()
 }
 
-func BadRequest(StatusCode int, Message string) defaultResponse {
+func BadRequest(ctx *gin.Context, StatusCode int, Message string) {
 	res := defaultResponse{
 		StatusCode: StatusCode,
 		Data: "No Data",
 		Error: true,
 		Message: Message,
 	}
-	return res;
+	
+	ctx.JSON(StatusCode, res)
+	ctx.Abort()
 }
 
-func ServerError(Message string) defaultResponse {
+func ServerError(ctx *gin.Context, Message string) {
+
 	res := defaultResponse{
 		StatusCode: 500,
 		Data: "No Data",
 		Error: true,
 		Message: Message,
 	}
-	return res;
+	ctx.JSON(500, res)
+	ctx.Abort()
+	
 }
 
 
