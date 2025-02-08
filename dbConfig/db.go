@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	userModel "app.team71.link/models"
+	//userModel "app.team71.link/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -20,12 +20,12 @@ func ConnectToDb() *gorm.DB {
 	if err !=nil {
 		fmt.Print(err.Error())
 	}
-	var userModel userModel.User;
-	err = db.AutoMigrate(userModel);
+	// var userModel userModel.User;
+	// err = db.AutoMigrate(userModel);
 
-	if err != nil {
-		fmt.Print(err)
-	}
+	// if err != nil {
+	// 	fmt.Print(err)
+	// }
 	//fmt.Println("Connect Db")
 	return db
 }

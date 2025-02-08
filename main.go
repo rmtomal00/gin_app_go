@@ -6,6 +6,7 @@ import (
 
 	response "app.team71.link/responseStruct"
 	authRoute "app.team71.link/routes"
+	userRoute "app.team71.link/routes"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -29,6 +30,7 @@ func main() {
 
 	//auth controller
 	authRoute.AuthRouteFunc(route);
+	userRoute.UsersRouter(route);
 
 	
 	//error handle
