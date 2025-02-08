@@ -21,5 +21,6 @@ func UserProfile(ctx *gin.Context) {
 		return
 	}
 
-	response.Success(ctx, 200, user, "Success")
+	response.Success(ctx, 200, map[string]interface{}{"id": user.ID, "email": user.Email, "username": user.Username}, "Success")
 }
+
