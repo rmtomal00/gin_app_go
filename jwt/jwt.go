@@ -15,7 +15,7 @@ type JwtMapData struct{
 	EXPIRE int64
 }
 
-var jwtSecret = []byte(os.Getenv("JWT_SECRET"))
+var jwtSecret = []byte(os.Getenv("JWT_SECRET"));
 
 func GenerateJWT(jwtM JwtMapData) (string, error) {
 	claims := jwt.MapClaims{
