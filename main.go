@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"time"
+
 	response "app.team71.link/responseStruct"
 	authRoute "app.team71.link/routes"
 	"github.com/gin-gonic/gin"
@@ -20,6 +22,7 @@ func main() {
 	}
 
 	route.GET("/", func(ctx *gin.Context) {
+		time.Sleep(100 * time.Millisecond)
 		response.Success(ctx, 200, "", "Success")
 		return
 	})

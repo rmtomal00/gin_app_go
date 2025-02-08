@@ -2,6 +2,7 @@ package jwtTokenManageer
 
 import (
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -14,7 +15,7 @@ type JwtMapData struct{
 	EXPIRE int64
 }
 
-var jwtSecret = []byte("Rmtomal10@")
+var jwtSecret = []byte(os.Getenv("JWT_SECRET"))
 
 func GenerateJWT(jwtM JwtMapData) (string, error) {
 	claims := jwt.MapClaims{
