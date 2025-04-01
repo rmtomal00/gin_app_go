@@ -18,7 +18,7 @@ import (
 
 func SendMail(to string, subject string, body string) {
 	
-	// d := gomail.NewDialer("smtp.google.com", 587, "noreply.team71@gmail.com", "ppsd eeoj qrdy ggsa");
+	// d := gomail.NewDialer("smtp.google.com", 587, "noreply.team71@gmail.com");
 	
 	// m := gomail.NewMessage();
 	// m.SetHeader("From", "noreply.team71@gmail.com");
